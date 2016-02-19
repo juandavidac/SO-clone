@@ -10,11 +10,24 @@
   <%= @question.description %>
 </p>
 
-<div class="jumbotron footer-comments">
-  <div class="container">
+<p><h4><%= pluralize(@question.comments.count, "commentario")%></h4></p>
+<%@question.comments.each do |comment| %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <small><strong><%=comment.user.email%> comentó <%=time_ago_in_words(comment.created_at)%></strong></small>
+    </div>
+    <div class="panel-body">
+      <%= comment.content %>
+    </div>
+  </div>
+  <%end%>
 
-  <p><h4><%= pluralize(@question.answers.count, "comentario")%></h4></p>
+<% if user_signed_in? %>
+  <strong>Nuevo comentario a pregunta</strong>
+  <%= render partial: "comments/form", :locals => { :origin => @question.comments.build, :a => @question}%>
+<%end%>
 
+  <p><h4><%= pluralize(@question.answers.count, "respuesta")%></h4></p>
   <%@question.answers.each do |answer| %>
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -25,7 +38,26 @@
       </div>
     </div>
 
+    <p><h4><%= pluralize(answer.comments.count, "commentario")%></h4></p>
+    <%answer.comments.each do |comment| %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <small><strong><%=comment.user.email%> comentó <%=time_ago_in_words(comment.created_at)%></strong></small>
+        </div>
+        <div class="panel-body">
+          <%= comment.content %>
+        </div>
+      </div>
+      <%end%>
+
+      <% if user_signed_in? %>
+        <strong>Nuevo comentario a respuesta</strong>
+        <%= render partial: "comments/form", :locals => { :origin => answer.comments.build, :a => answer}%>
+      <%end%>
+
   <%end%>
+
+
 <% if user_signed_in? %>
     <strong>Nueva respuesta</strong>
     <%= render "answers/form"%>

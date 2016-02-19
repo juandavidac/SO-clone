@@ -1,0 +1,6 @@
+<%= form_for [a, origin] do |f| %>
+  <div class="form-group comment-form">
+    <%= f.text_area :content, class: "form-control", placeholder: "Agregar comentario" %>
+  </div>
+    <%= f.submit "Comentar", class: "btn btn-primary commentbutton"%>
+<%end%>
