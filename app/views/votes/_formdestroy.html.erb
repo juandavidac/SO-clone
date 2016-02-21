@@ -1,0 +1,5 @@
+<%= form_for [a, origin], :html => { :method => :delete } do |f| %>
+    <%= f.hidden_field :votable_type %>
+    <%= f.hidden_field :votable_id%>
+    <%= f.submit "Quitar voto", class: "btn btn-primary commentbutton"%>
+<%end%>

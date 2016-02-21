@@ -1,0 +1,7 @@
+<%= form_for [a, origin] do |f| %>
+    <%= f.hidden_field :votable_type %>
+    <%= f.hidden_field :votable_id%>
+    <%= f.button "", class:"btn votebutton" do%>
+      <i class="glyphicon glyphicon-triangle-top"></i>
+    <%end%>
+<%end%>

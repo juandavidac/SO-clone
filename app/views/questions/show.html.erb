@@ -10,7 +10,28 @@
   <%= @question.description %>
 </p>
 
-<p><h4><%= pluralize(@question.comments.count, "commentario")%></h4></p>
+<p><h2><%= pluralize(@question.votes.count, "voto")%></h2></p>
+
+<%if user_signed_in?%>
+  <%if @question.votes.where(user_id: current_user.id).any? %>
+    <i class="glyphicon glyphicon-triangle-top"></i>
+    <% @question.votes.where(user_id: current_user.id).each do |vote|%>
+      <%= button_to vote, class:"btn votebutton", method: :delete do %>
+        <i class="glyphicon glyphicon-triangle-bottom"></i>
+      <%end%>
+    <%end%>
+  <%else%>
+    <%= render partial: "votes/formcreate", :locals => { :origin => @question.votes.build, :a => @question}%>
+    <i class="glyphicon glyphicon-triangle-bottom"></i>
+  <%end%>
+<%else%>
+    <i class="glyphicon glyphicon-triangle-top"></i> <br>
+    <i class="glyphicon glyphicon-triangle-bottom"></i>
+<%end%>
+
+
+
+<p><h4><%= pluralize(@question.comments.count, "comentario")%></h4></p>
 <%@question.comments.each do |comment| %>
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -38,7 +59,29 @@
       </div>
     </div>
 
-    <p><h4><%= pluralize(answer.comments.count, "commentario")%></h4></p>
+    <p><h2><%= pluralize(answer.votes.count, "voto")%></h2></p>
+
+  <%if user_signed_in? %>
+    <%if answer.votes.where(user_id: current_user.id).any? %>
+      <i class="glyphicon glyphicon-triangle-top"></i>
+      <%answer.votes.where(user_id: current_user.id).each do |vote|%>
+        <%= button_to vote, class:"btn votebutton" , method: :delete do %>
+          <i class="glyphicon glyphicon-triangle-bottom"></i>
+        <%end%>
+      <%end%>
+    <%else%>
+      <%= render partial: "votes/formcreate", :locals => { :origin => answer.votes.build, :a => answer}%>
+      <i class="glyphicon glyphicon-triangle-bottom"></i>
+    <%end%>
+  <%else%>
+      <i class="glyphicon glyphicon-triangle-top"></i> <br>
+      <i class="glyphicon glyphicon-triangle-bottom"></i>
+  <%end%>
+
+
+
+
+    <p><h4><%= pluralize(answer.comments.count, "comentario")%></h4></p>
     <%answer.comments.each do |comment| %>
       <div class="panel panel-default">
         <div class="panel-heading">
