@@ -1,109 +1,67 @@
-<p id="notice"><%= notice %></p>
+<!-- <p id="notice"><%= notice %></p> -->
 
-<p>
-  <strong>Title:</strong>
-  <%= @question.title %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @question.description %>
-</p>
-
-<p><h2><%= pluralize(@question.votes.count, "voto")%></h2></p>
-
-<%if user_signed_in?%>
-  <%if @question.votes.where(user_id: current_user.id).any? %>
-    <i class="glyphicon glyphicon-triangle-top"></i>
-    <% @question.votes.where(user_id: current_user.id).each do |vote|%>
-      <%= button_to vote, class:"btn votebutton", method: :delete do %>
-        <i class="glyphicon glyphicon-triangle-bottom"></i>
-      <%end%>
-    <%end%>
-  <%else%>
-    <%= render partial: "votes/formcreate", :locals => { :origin => @question.votes.build, :a => @question}%>
-    <i class="glyphicon glyphicon-triangle-bottom"></i>
-  <%end%>
-<%else%>
-    <i class="glyphicon glyphicon-triangle-top"></i> <br>
-    <i class="glyphicon glyphicon-triangle-bottom"></i>
-<%end%>
-
-
-
-<p><h4><%= pluralize(@question.comments.count, "comentario")%></h4></p>
-<%@question.comments.each do |comment| %>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <small><strong><%=comment.user.email%> comentó <%=time_ago_in_words(comment.created_at)%></strong></small>
-    </div>
-    <div class="panel-body">
-      <%= comment.content %>
+<div class="container-fluid">
+<div class="questions_block">
+<h2><strong><%= @question.title %></strong></h2>
+<div class="row question_votes">
+  <div class="col-md-1 col-xs-1 votes">
+    <%=render partial: "votes/votes_question", :locals => {:@question => @question }%>
+  </div>
+  <div class="col-md-10 col-xs-11">
+    <div class="row">
+    <p class="description"><%= @question.description %></p>
     </div>
   </div>
-  <%end%>
+</div>
 
-<% if user_signed_in? %>
-  <strong>Nuevo comentario a pregunta</strong>
-  <%= render partial: "comments/form", :locals => { :origin => @question.comments.build, :a => @question}%>
-<%end%>
-
-  <p><h4><%= pluralize(@question.answers.count, "respuesta")%></h4></p>
-  <%@question.answers.each do |answer| %>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <small><strong><%=answer.user.email%> respondió <%=time_ago_in_words(answer.created_at)%></strong></small>
-      </div>
-      <div class="panel-body">
-        <%= answer.body %>
-      </div>
-    </div>
-
-    <p><h2><%= pluralize(answer.votes.count, "voto")%></h2></p>
-
-  <%if user_signed_in? %>
-    <%if answer.votes.where(user_id: current_user.id).any? %>
-      <i class="glyphicon glyphicon-triangle-top"></i>
-      <%answer.votes.where(user_id: current_user.id).each do |vote|%>
-        <%= button_to vote, class:"btn votebutton" , method: :delete do %>
-          <i class="glyphicon glyphicon-triangle-bottom"></i>
+<div class="row comments_row">
+    <div class="col-md-1 col-xs-1 votes"></div>
+      <div class="col-md-10 col-xs-11">
+        <p class="number_comment_answers"><strong><%= pluralize(@question.comments.count, "comentario")%></strong></p>
+        <%= render partial: "comments/comments_question", :locals => {:@question => @question}%>
+        <% if user_signed_in? %>
+          <strong>Nuevo comentario a pregunta</strong>
+          <%= render partial: "comments/form", :locals => { :origin => @question.comments.build, :a => @question}%>
         <%end%>
-      <%end%>
-    <%else%>
-      <%= render partial: "votes/formcreate", :locals => { :origin => answer.votes.build, :a => answer}%>
-      <i class="glyphicon glyphicon-triangle-bottom"></i>
-    <%end%>
-  <%else%>
-      <i class="glyphicon glyphicon-triangle-top"></i> <br>
-      <i class="glyphicon glyphicon-triangle-bottom"></i>
+    </div>
+</div>
+</div>
+
+<div class="answer_block number_comment_answers"><strong><%= pluralize(@question.answers.count, "respuesta ")%></strong></div>
+<%@question.answers.each do |answer| %>
+<div class="row answers_block">
+<div class="row answer_votes">
+  <div class="col-md-1 col-xs-1 votes">
+    <%=render partial: "votes/votes_answers", :locals => {:answer => answer} %>
+  </div>
+  <div class="col-md-10 col-xs-11">
+    <div class="row">
+      <%= answer.body %>
+    </div>
+  </div>
+</div>
+
+<div class="row answer_comments">
+  <div class="col-md-1 col-xs-1 votes"></div>
+  <div class="col-md-10 col-xs-11">
+  <p class="number_comment_answers"><strong><%= pluralize(answer.comments.count, "comentario")%></strong></p>
+  <%= render partial: "comments/comments_answer", :locals => {:answer => answer}%>
+  <% if user_signed_in? %>
+    <strong>Nuevo comentario a respuesta</strong>
+    <%= render partial: "comments/form", :locals => { :origin => answer.comments.build, :a => answer}%>
   <%end%>
-
-
-
-
-    <p><h4><%= pluralize(answer.comments.count, "comentario")%></h4></p>
-    <%answer.comments.each do |comment| %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <small><strong><%=comment.user.email%> comentó <%=time_ago_in_words(comment.created_at)%></strong></small>
-        </div>
-        <div class="panel-body">
-          <%= comment.content %>
-        </div>
-      </div>
-      <%end%>
-
-      <% if user_signed_in? %>
-        <strong>Nuevo comentario a respuesta</strong>
-        <%= render partial: "comments/form", :locals => { :origin => answer.comments.build, :a => answer}%>
-      <%end%>
-
-  <%end%>
-
-
-<% if user_signed_in? %>
-    <strong>Nueva respuesta</strong>
-    <%= render "answers/form"%>
-    <!-- <%= link_to 'Edit', edit_question_path(@question) %> |
-    <%= link_to 'Back', questions_path %> -->
+  </div>
+</div>
+</div>
 <%end%>
+
+
+  <% if user_signed_in? %>
+    <div class="row new_answer">
+      <strong>Nueva respuesta</strong>
+      <%= render "answers/form"%>
+      <!-- <%= link_to 'Edit', edit_question_path(@question) %> |
+      <%= link_to 'Back', questions_path %> -->
+    </div>
+  <%end%>
+  </div>

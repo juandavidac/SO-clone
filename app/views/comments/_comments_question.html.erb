@@ -1,0 +1,10 @@
+<%@question.comments.each do |comment| %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <small><strong><%=comment.user.email%> comentó <%=time_ago_in_words(comment.created_at)%></strong></small>
+  </div>
+  <div class="panel-body">
+    <%= comment.content %>
+  </div>
+</div>
+<%end%>

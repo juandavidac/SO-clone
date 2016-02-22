@@ -1,0 +1,22 @@
+
+<%if user_signed_in? %>
+  <%if answer.votes.where(user_id: current_user.id).any? %>
+    <i class="glyphicon glyphicon-triangle-top"></i><br>
+    <span class="number_votes"><%=answer.votes.count%></span><br>
+    <%answer.votes.where(user_id: current_user.id).each do |vote|%>
+      <%= button_to vote, class:"btn votebutton" , method: :delete do %>
+        <i class="glyphicon glyphicon-triangle-bottom"></i>
+      <%end%>
+    <%end%>
+  <%else%>
+    <%= render partial: "votes/formcreate", :locals => { :origin => answer.votes.build, :a => answer}%>
+     <span class="number_votes"><%=answer.votes.count%></span><br>
+    <i class="glyphicon glyphicon-triangle-bottom"></i>
+  <%end%>
+<%else%>
+  <%=button_to new_user_session_path, class:"btn votebutton" do %>
+    <i class="glyphicon glyphicon-triangle-top"></i><br>
+     <span class="number_votes"><%=answer.votes.count%></span><br>
+    <i class="glyphicon glyphicon-triangle-bottom"></i>
+  <%end%>
+<%end%>

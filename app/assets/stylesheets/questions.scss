@@ -1,3 +1,82 @@
 // Place all the styles related to the Questions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.table {
+  margin-top: 50px;
+  tr {
+    td {
+      text-align: center;
+      span.num_votes{
+        font-size: 25px;
+      }
+      span.num_answers {
+        font-size: 25px;
+      }
+    }
+
+    td.title_description {
+      text-align: left;
+      .who_asked {
+        color: gray;
+      }
+    }
+  }
+}
+
+.title {
+  font-size: 25px;
+  font-weight: bold;
+  color: #FF8C00;
+}
+a.title {
+  text-decoration: none;
+}
+.title:hover {
+  color: orange;
+}
+
+.row {
+  margin: 0px;
+}
+
+// .votes {
+//   text-align: center;
+// }
+
+.comments_row {
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+.answer_votes {
+  margin-top: 25px;
+}
+.new_answer {
+  margin-top: 40px;
+  margin-bottom: 50px;
+}
+.number {
+text-align: center;
+}
+
+.number_votes {
+  font-size: 30px;
+}
+.number_comment_answers {
+  color: #A9A9A9;
+}
+.answer_block {
+  border-bottom:1px solid #F5F5F5;
+}
+.answers_block {
+  background-color: #F5F5F5;
+  margin: 20px 10px;
+  padding-bottom: 20px;
+}
+
+.questions_block {
+  background-color: #F5F5F5;
+  border-radius: 10px;
+  padding: 10px 10px;
+  margin-bottom: 20px;
+}
