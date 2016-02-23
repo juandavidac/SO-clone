@@ -1,7 +1,6 @@
 <nav class="navbar navbar-inverse">
   <nav class="navbar-inner">
     <div class="container">
-    <%if user_signed_in? %>
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
           <span class="sr-only">Toggle Navigation</span>
@@ -9,31 +8,26 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href="#" class="navbar-brand">Stackoverflow</a>
+        <%=link_to "Stackoverflow", questions_path, class:"navbar-brand"%>
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li><%= link_to "Nueva pregunta", new_question_path %></li>
-          <li><%= link_to "Salir", destroy_user_session_path, method: :delete %></li>
+          <li class="search">
+            <%= form_tag questions_path, method: :get do %>
+              <div class="form-group">
+                <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "Buscar" %>
+              </div>
+            <!-- <%= submit_tag "Buscar", name: nil, class: "btn btn-primary btn-md" %> -->
+            <% end %>
+          </li>
+          <%if user_signed_in? %>
+            <li><%= link_to "Salir", destroy_user_session_path, method: :delete %></li>
+          <%else%>
+            <li><%= link_to "Registrarse", new_user_registration_path %></li>
+            <li><%= link_to "Ingresar", new_user_session_path %></li>
+          <%end%>
         </ul>
       </div>
-    <%else%>
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-          <span class="sr-only">Toggle Navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a href="#" class="navbar-brand"><strong>StackOverflow</strong></a>
-      </div>
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav navbar-right">
-          <li><%= link_to "Registrarse", new_user_registration_path %></li>
-          <li><%= link_to "Ingresar", new_user_session_path %></li>
-        </ul>
-      </div>
-    <%end%>
     </div>
   </nav>
 </nav>

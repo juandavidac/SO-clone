@@ -2,6 +2,9 @@
 
 <div class="container-fluid">
   <h1>Preguntas</h1>
+  <div class="row pull-right">
+  <%= link_to "Nueva pregunta", new_question_path, class:"btn btn-primary" %>
+  </div>
   <!-- <div class="table-responsive"> -->
     <table class="table">
 <% @questions.each do |question| %>

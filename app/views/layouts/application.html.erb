@@ -6,29 +6,14 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
+
 <body>
   <%=render partial: "layouts/nav"%>
-  <%flash.each do |name, msg|%>
-    <%content_tag(:div, msg, class: "alert alert-#{name}")%>
-  <%end%>
+
 
   <div class="col-md-6 col-md-offset-3 main">
-    <% if notice %>
-        <div class="alert alert-info">
-          <%= notice %>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </div>
-        <%end%>
-        <% if alert %>
-        <div class="alert alert-danger">
-          <%= alert %>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <%end%>
-  <%= yield %>
+    <%=render partial: "layouts/notifications"%>
+    <%= yield %>
   </div>
 
 </body>

@@ -1,4 +1,15 @@
 <%= form_for [a, origin] do |f| %>
+<% if origin.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(origin.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+    <ul>
+    <% origin.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
   <div class="form-group comment-form">
     <%= f.text_area :content, class: "form-control", placeholder: "Agregar comentario" %>
   </div>

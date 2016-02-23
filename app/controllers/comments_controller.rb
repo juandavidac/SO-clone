@@ -6,7 +6,15 @@ class CommentsController < ApplicationController
     # question_or_answer.comments.create(params_comment)
     # redirect_to root_path
     @comment=@commentable.comments.create(params_comment)
-    redirect_to @path
+    respond_to do |format|
+      if @comment.save
+        format.html { redirect_to @path, notice: 'Comentario creado' }
+        format.json { render :show, status: :created, location: question }
+      else
+        format.html { redirect_to @path, alert: 'El comentario no puede estar vacio' }
+        format.json { render json: answer.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private

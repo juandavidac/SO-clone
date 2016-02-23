@@ -1,7 +1,10 @@
 <%= form_for(@question) do |f| %>
   <% if @question.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
+    <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2><%=@question.errors.count %> errores</h2>
 
       <ul>
       <% @question.errors.full_messages.each do |message| %>
@@ -11,15 +14,13 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
+  <div class="form-group">
+    <%= f.label :title, "Título" %><br>
+    <%= f.text_field :title, class:"form-control" %>
   </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
+  <div class="form-group">
+    <%= f.label :description, "Descripción" %><br>
+    <%= f.text_area :description, class:"form-control" %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <%= f.submit "Preguntar", class: "btn btn-primary" %>  
 <% end %>
